@@ -9,18 +9,18 @@ const Shop = () => {
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
 
-    useEffect( () =>{
+    useEffect(() => {
         fetch('products.json')
-        .then(res=> res.json())
-        .then(data =>setProducts(data))
+            .then(res => res.json())
+            .then(data => setProducts(data))
     }, []);
 
-    useEffect( () =>{
+    useEffect(() => {
         const storedCart = getStoredCart();
         const savedCart = [];
-        for(const id in storedCart){
+        for (const id in storedCart) {
             const addedProduct = products.find(product => product.id === id);
-            if(addedProduct){
+            if (addedProduct) {
                 const quantity = storedCart[id];
                 addedProduct.quantity = quantity;
                 savedCart.push(addedProduct);
@@ -29,24 +29,24 @@ const Shop = () => {
         setCart(savedCart);
     }, [products])
 
-    const handleAddToCart = (selectedProduct) =>{
+    const handleAddToCart = (selectedProduct) => {
         let newCart = [];
         const exists = cart.find(product => product.id === selectedProduct.id);
-        if(!exists){
+        if (!exists) {
             selectedProduct.quantity = 1;
             newCart = [...cart, selectedProduct];
         }
-        else{
+        else {
             const rest = cart.filter(product => product.id !== selectedProduct.id);
             exists.quantity = exists.quantity + 1;
             newCart = [...rest, exists];
         }
-        
+
         setCart(newCart);
         addToDb(selectedProduct.id);
     }
 
-    const removeFormCart = (id) =>{
+    const removeFormCart = (id) => {
         const rest = cart.filter(product => product.id !== id);
         setCart(rest);
         removeFromDb(id);
@@ -73,8 +73,8 @@ const Shop = () => {
                             {
                                 products.map(product => <Products key={product.id}
                                     product={product}
-                                    handleAddToCart={handleAddToCart} 
-                                    />)
+                                    handleAddToCart={handleAddToCart}
+                                />)
                             }
                         </div>
                     </Col>
