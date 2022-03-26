@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 const Content = () => {
     return (
         <div className="content-section my-5 text-start">
+            
             <Container>
                 <Row>
                     <Col>
